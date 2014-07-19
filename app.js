@@ -105,9 +105,24 @@ function addpoint(data){
                 console.log('unknown message received:'+data);
             break;
         };
+
+    // check for wins
+        
+    if (bluepoints == "10") {
+        console.log("Blue team wins!".blue);
+        io.emit('status', 'Blue Team Wins!');
+    };
+
+    if (redpoints == "10") {
+        console.log("Blue team wins!".blue);
+       
+        io.emit('status', 'Red Team Wins!');
+    };
+
+
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round, time : pointTime});
     console.log('Score '+pointTime+' !'.blue);
-    io.emit('status', 'Score '+pointTime+' !');
+    
 };
 
 console.log('Server listening on port 3000'.green);
