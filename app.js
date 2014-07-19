@@ -23,14 +23,52 @@ var round1,
     round2,
     round3;
 
+
+
+
+function millisecondsToStr (milliseconds) {
+    // TIP: to find current time in milliseconds, use:
+    // var  current_time_milliseconds = new Date().getTime();
+
+    function numberEnding (number) {
+        return (number > 1) ? 's' : '';
+    }
+
+    var temp = Math.floor(milliseconds / 1000);
+    var years = Math.floor(temp / 31536000);
+    if (years) {
+        return years + ' year' + numberEnding(years);
+    }
+    //TODO: Months! Maybe weeks? 
+    var days = Math.floor((temp %= 31536000) / 86400);
+    if (days) {
+        return days + ' day' + numberEnding(days);
+    }
+    var hours = Math.floor((temp %= 86400) / 3600);
+    if (hours) {
+        return hours + ' hour' + numberEnding(hours);
+    }
+    var minutes = Math.floor((temp %= 3600) / 60);
+    if (minutes) {
+        return minutes + ' minute' + numberEnding(minutes);
+    }
+    var seconds = temp % 60;
+    if (seconds) {
+        return seconds + ' second' + numberEnding(seconds);
+    }
+    return 'less than a second'; //'just now' //or other string you like;
+}
+
+
+
+
 function addpoint(data){
 
     var currentBP = Number(bluepoints),
         currentRP = Number(redpoints),
-        pointTime = (Date.now() - currTime) /1000;
+        pointTime =     millisecondsToStr(Date.now() - currTime);
 
-    console.log('Score Change!'.blue);
-    io.emit('status', 'Score Change!');
+    
     console.log(pointTime);
 
     switch (data)
@@ -68,6 +106,8 @@ function addpoint(data){
             break;
         };
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round, time : pointTime});
+    console.log('Score '+pointTime+' !'.blue);
+    io.emit('status', 'Score '+pointTime+' !');
 };
 
 console.log('Server listening on port 3000'.green);
@@ -78,9 +118,9 @@ io.sockets.on('connection', function(socket){
 // Game round score keeper
     
 
-    console.log('starting'.red);
+    console.log('New device connected'.green);
     
-    io.emit('status', 'New device connected');
+    io.emit('status', 'New device connected!');
 
 // Send score update to all devices on new connection
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
@@ -95,13 +135,14 @@ io.sockets.on('connection', function(socket){
 
         socket.on('status', function(data){
             switch (data)
-            { case "restart": 
+            { case "newGame": 
                     bluepoints = "00"
                     redpoints = "00"
                     round = "1"
                     currTime = Date.now();
                     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
-                    console.log('Restart');
+                    console.log('New Game Starting');
+                    io.emit('status', "Starting new Game...");
             break;
             };
         });
@@ -112,51 +153,28 @@ io.sockets.on('connection', function(socket){
 
 // Johnny-five starts here
 
+// var five = require("johnny-five"),
+//     // or "./lib/johnny-five" when running from the source
+//     board = new five.Board();
 
+// board.on("ready", function() {
+
+//    var laserBlue;
+//     var laserRed;
+
+//     var sensorBlue = new five.Button(8);
+//     var sensorRed = new five.Button(7); 
+
+//   // Create an Led on pin 13 and strobe it on/off
+//   // Optionally set the speed; defaults to 100ms
+//   (new five.Led(13)).strobe();
+
+// });
 
 
 // Johnny-five dies here
 
 
-// Start Noduino
-// requirejs.config({nodeRequire: require});
-
-//     requirejs(['public/scripts/libs/Noduino', 'public/scripts/libs/Noduino.Serial', 'public/scripts/libs/Logger'], function (NoduinoObj, NoduinoConnector, Logger) {
-//       var Noduino = new NoduinoObj({'debug': false}, NoduinoConnector, Logger);
-//       Noduino.connect(function(err, board) {
-//         if (err) { return console.log(err); }
-
-//         // board.withLED({pin: 12}, function(err, LED) {
-//         //   if (err) { return console.log(err); }
-
-//         //   LED.on();
-//         //   LED.on('on', function(e) {
-//         //     console.log('LED is on!');
-//         //   });
-//         // });
-
-//         board.withButton({pin: 8}, function(err, Button) {
-//             if (err) { return console.log(err); }
-            
-//             Button.on('release', function() {
-//               console.log('Button 8 released'.blue);
-//               // socket.emit('score', 'blueplus'); 
-//               addpoint('blueplus');
-//             });
-//         });
-
-//         board.withButton({pin: 13}, function(err, Button) {
-//             if (err) { return console.log(err); }
-         
-//             Button.on('release', function() {
-//               console.log('Button 13 released'.red);
-//               // socket.emit('score', 'redplus'); 
-//               addpoint('redplus');
-//             });
-
-//         });
-//       });
-//     });
 
 
 

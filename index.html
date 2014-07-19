@@ -19,50 +19,23 @@
 				<li class="redscore"><span class="red_points">00</span></li>
 			</ul>
 
-			<p> Round <span class="round">1</span></p>
+			<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
 
+			<!-- <p> Round <span class="round">1</span></p> -->
+			<h4>Status</h4>
 			<div id="status" class="alert alert-info" role="alert"> </div>
 
-			<button id="restart" class="btn btn-primary">Restart Game</button>
+			<button id="newGame" class="btn btn-primary">New Game</button>
 
 			<hr/>
 
 			<p class="content-padded">Use these controls to overide the sensors on the table.</p>
-
-    <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+	 <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
 
     <p class="content-padded">Team Red <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
 
     		<hr/>
-
-			<table class="table table-bordered table-striped">
-				<tbody>
-					<tr>
-						<th>Team Name</th>
-						<th>Round 1</th>
-						<th>Round 2</th>
-						<th>Round 3</th>
-					</tr>
-
-					<tr>
-						<td>Blue Team</td>
-						<td class="r1-blue"></td>
-						<td class="r2-blue"></td>
-						<td class="r3-blue"></td>
-					</tr>
-
-					<tr>
-						<td>Red Team</td>
-						<td class="r1-red"></td>
-						<td class="r2-red"></td>
-						<td class="r3-red"></td>
-					</tr>
-				</tbody>
-			
-			</table>
-
 		</div>
-
 	</div>
 
 </div>
@@ -70,6 +43,7 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.velocity.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script type="text/javascript">
@@ -96,11 +70,12 @@
 	    var redPlus = $('#redplus');
 	    var blueMin = $('#bluemin');
 	    var redMin = $('#redmin');
-	    var restart = $('#restart');
+	    var newGame = $('#newGame');
 
-		// socket.on('status', function(data){
-		// 	console.log(data.blue);
-		// });
+	    var minutes = 0;
+		var seconds = 0;
+
+		
 		socket.emit('status', 'Display connected');
 
 
@@ -108,18 +83,29 @@
 			
 			console.log('score update received');
 			// WIP to parse score msg
-			blue_points.html(data.blue);
-			red_points.html(data.red);
-			currentRound.html(data.round);
-			console.log(data.time);
 
+			if (blue_points.html() != data.blue) {
+				blue_points.html(data.blue);
+			};
+
+			if (red_points.html() != data.red) {
+				red_points.html(data.red);
+			};
+
+			//console.log(data.time);
 		});
 
 		socket.on('status', function(data){
 			
 			console.log(data);
 			$("#status").html(data);
-		
+
+			if (data == "Starting new Game...") {
+				minutes = 0;
+	      		seconds = 0;
+			};
+
+
 		});
 
 
@@ -139,9 +125,34 @@
 	      socket.emit('score', 'redmin');
 	    });
 
-	    restart.click(function() {
-	      socket.emit('status', 'restart');
+	    newGame.click(function() {
+	      socket.emit('status', 'newGame');
 	    });
+
+
+	    // Game Clock
+
+	   
+
+		$(document).ready(function() {
+		    setInterval(function() {
+		        updateClock()
+		    }, 1000);
+		});
+
+		function updateClock() {
+
+		    seconds +=1;
+
+		    if (seconds > 59) {
+		        seconds -= 60;
+		        minutes++;
+		    }
+		    if (minutes > 23) {
+		        minutes = 0;
+		    }
+		    $("#clock").html(minutes + ':' + seconds);
+		}
 
 	});
 
