@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/styles.css" rel="stylesheet">
+	<title>Fooseball Display</title>
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		
+		<div class="col-md-6 col-md-offset-3">
+			<h1>Scoreboard</h1>
+			<div class="alert"></div>
+			
+			<ul class="Score">
+				<li class="bluescore"><span class="blue_points">00</span></li>
+				<li class="redscore"><span class="red_points">00</span></li>
+			</ul>
+
+			<p> Round <span class="round">1</span></p>
+
+			<div id="status" class="alert alert-info" role="alert"> </div>
+
+			<button id="restart" class="btn btn-primary">Restart Game</button>
+
+			<hr/>
+
+			<p class="content-padded">Use these controls to overide the sensors on the table.</p>
+
+    <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+
+    <p class="content-padded">Team Red <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
+
+    		<hr/>
+
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr>
+						<th>Team Name</th>
+						<th>Round 1</th>
+						<th>Round 2</th>
+						<th>Round 3</th>
+					</tr>
+
+					<tr>
+						<td>Blue Team</td>
+						<td class="r1-blue"></td>
+						<td class="r2-blue"></td>
+						<td class="r3-blue"></td>
+					</tr>
+
+					<tr>
+						<td>Red Team</td>
+						<td class="r1-red"></td>
+						<td class="r2-red"></td>
+						<td class="r3-red"></td>
+					</tr>
+				</tbody>
+			
+			</table>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script type="text/javascript">
+	
+	jQuery(function($){
+		
+		var socket = io.connect();
+
+		var blue_points = $(".blue_points");
+		var red_points = $(".red_points");
+		var alertDiv = $("div.alert");
+
+		var blueround1 = $(".r1-blue"); 
+		var blueround2 = $(".r2-blue");
+		var blueround3 = $(".r3-blue");
+
+		var redround1 = $(".r1-red");
+		var redround2 = $(".r2-red");
+		var redround3 = $(".r3-red");
+
+		var currentRound = $(".round");
+
+		var bluePlus = $('#blueplus');
+	    var redPlus = $('#redplus');
+	    var blueMin = $('#bluemin');
+	    var redMin = $('#redmin');
+	    var restart = $('#restart');
+
+		// socket.on('status', function(data){
+		// 	console.log(data.blue);
+		// });
+		socket.emit('status', 'Display connected');
+
+
+		socket.on('score-update', function(data){
+			
+			console.log('score update received');
+			// WIP to parse score msg
+			blue_points.html(data.blue);
+			red_points.html(data.red);
+			currentRound.html(data.round);
+			console.log(data.time);
+
+		});
+
+		socket.on('status', function(data){
+			
+			console.log(data);
+			$("#status").html(data);
+		
+		});
+
+
+		bluePlus.click(function() {
+	      socket.emit('score', 'blueplus');
+	    });
+
+	    blueMin.click(function() {
+	      socket.emit('score', 'bluemin');
+	    });
+
+	    redPlus.click(function() {
+	      socket.emit('score', 'redplus');
+	    });
+
+	    redMin.click(function() {
+	      socket.emit('score', 'redmin');
+	    });
+
+	    restart.click(function() {
+	      socket.emit('status', 'restart');
+	    });
+
+	});
+
+</script>
+
+</body>
+
+</html>

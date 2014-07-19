@@ -1,0 +1,36 @@
+/* @override 
+	http://0.0.0.0:3000/styles/styles.css */
+	
+	ul.Score {
+		width: 100%;
+		padding: 0;
+		list-style-type: none;
+		display: block;
+		background-color: #c5e5f8;
+		font-size: 72px;
+		float: left;
+		border-radius: 5px;
+		margin-bottom: 50px;
+	}
+	
+	ul.Score li{
+		width: 50%;
+		float: left;
+		display: block;
+		text-align: center;
+	}
+	
+	li.redscore {
+		color: #c90606;
+	}
+	
+	
+	li.bluescore {
+		color: #067ac9;
+	}
+	
+	h1{
+		text-align: center;
+	}
+	
+	

@@ -1,0 +1,13 @@
+{
+  "author": "Sebastien Barrau",
+  "name": "Scoreboard",
+  "description": "A Foosball table Scoreboard",
+  "version": "0.0.1",
+
+  "dependencies": {
+    "colors": "*",
+    "socket.io": "latest",
+    "express": "latest",
+    "johnny-five": "latest"
+  } 
+}
