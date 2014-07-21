@@ -14,12 +14,17 @@
 	}
 	
 	ul.Score li{
-		width: 50%;
+		width: 25%;
 		float: left;
 		display: block;
 		text-align: center;
 	}
 	
+	ul.Score li.players img{
+		wid
+	}
+
+
 	li.redscore {
 		color: #c90606;
 	}
@@ -38,3 +43,4 @@
 		font-size: 24px;
 		font-weight: 800;
 	}
+

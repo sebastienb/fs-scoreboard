@@ -13,6 +13,10 @@ app.get('/', function(req, res) {
 });
 
 
+app.get('/newgame', function(req, res) {
+    res.sendfile(__dirname + '/game.html');
+});
+
 // Initial var values
 var bluepoints = "00",
     redpoints = "00",
@@ -22,8 +26,6 @@ var bluepoints = "00",
 var round1,
     round2,
     round3;
-
-
 
 
 function millisecondsToStr (milliseconds) {

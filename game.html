@@ -11,39 +11,38 @@
 	<div class="row">
 		
 		<div class="col-md-6 col-md-offset-3">
+			<h1>Scoreboard</h1>
+			<div class="alert"></div>
 			
-			<h1>Players</h1>
-			<p>Enter your instagram ID to grab your avatar</p>
-			<div class="form-group">
-			    <label for="blue-player-1">Blue Attack </label>
-			    <input id="blue-player-1" type="text" class="form-control" placeholder="Instagram ID">
-			</div>
-
-			<div class="form-group">
-			    <label for="blue-player-2">Blue Defence </label>
-			    <input id="blue-player-2" type="text" class="form-control" placeholder="Instagram ID">
-			</div>
-
-			<div class="form-group">
-			    <label for="ed-player-1">Red Attack </label>
-			    <input id="red-player-1" type="text" class="form-control" placeholder="Instagram ID">
-			</div>
-
-			<div class="form-group">
-			    <label for="red-player-2">Red Defence </label>
-			    <input id="red-player-2" type="text" class="form-control" placeholder="Instagram ID">
-			</div>
-
-
-			<a href="/newgame" class="btn btn-primary">New Game</a>
-
-			<hr/>
+			<ul class="Score">
+				<li class="players">
+					<img src="http://avatars.io/instagram/datamouth" class="img-responsive">
+					<img src="http://avatars.io/instagram/xcast3d" class="img-responsive">
+				</li>
+				<li class="bluescore"><span class="blue_points">00</span></li>
+				<li class="redscore"><span class="red_points">00</span></li>
+				<li class="players">
+					<img src="http://avatars.io/instagram/s3bastienb" class="img-responsive">
+					<img src="http://avatars.io/instagram/xcast3d" class="img-responsive">
+				</li>
+			</ul>
+			<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
 			
+
+			<!-- <p> Round <span class="round">1</span></p> -->
 			<h4>Status</h4>
 			<div id="status" class="alert alert-info" role="alert"> </div>
 
-			
-			
+			<button id="newGame" class="btn btn-primary">New Game</button>
+
+			<hr/>
+
+			<p class="content-padded">Use these controls to overide the sensors on the table.</p>
+	 <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+
+    <p class="content-padded">Team Red <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
+
+    		<hr/>
 		</div>
 	</div>
 
