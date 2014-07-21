@@ -3,6 +3,7 @@
   "name": "Scoreboard",
   "description": "A Foosball table Scoreboard",
   "version": "0.0.1",
+  "repository": "https://bitbucket.org/3sparks/scoreboard",
 
   "dependencies": {
     "colors": "*",
