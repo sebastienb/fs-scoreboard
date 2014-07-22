@@ -21,6 +21,10 @@ app.get('/newgame', function(req, res) {
 var bluepoints = "00",
     redpoints = "00",
     round = "1",
+    bluePlayer1 = "",
+    bluePlayer2 = "",
+    redPlayer1 = "",
+    redPlayer2 = "",
     currTime = Date.now();
 
 var round1,
@@ -162,6 +166,15 @@ io.sockets.on('connection', function(socket){
                     io.emit('status', "Starting new Game...");
             break;
             };
+        });
+
+
+        socket.on('players', function(data){
+            console.log(data);
+            bluePlayer1 = data.bluePlayer1;
+            bluePlayer2 = data.bluePlayer2;
+            redPlayer1 = data.redPlayer1;
+            redPlayer2 = data.redPlayer2;
         });
 
 }); //end socket connection

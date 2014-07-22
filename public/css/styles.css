@@ -14,24 +14,28 @@
 	}
 	
 	ul.Score li{
-		width: 25%;
+		width: 50%;
 		float: left;
 		display: block;
 		text-align: center;
 	}
 	
-	ul.Score li.players img{
-		wid
+	ul.Score li.players{
+		width:25%; 
 	}
 
 
-	li.redscore {
+	.red_points {
 		color: #c90606;
+		width: 50%;
+		float: left;
 	}
 	
 	
-	li.bluescore {
+	.blue_points{
 		color: #067ac9;
+		width: 50%;
+		float: left;
 	}
 	
 	h1{

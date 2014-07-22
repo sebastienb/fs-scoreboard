@@ -19,14 +19,20 @@
 					<img src="http://avatars.io/instagram/datamouth" class="img-responsive">
 					<img src="http://avatars.io/instagram/xcast3d" class="img-responsive">
 				</li>
-				<li class="bluescore"><span class="blue_points">00</span></li>
-				<li class="redscore"><span class="red_points">00</span></li>
+				<li class="score-timer">
+					<div class="">
+						<div class="blue_points">00</div><div class="red_points">00</div>
+						
+						<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+					</div>
+				</li>
+				
 				<li class="players">
 					<img src="http://avatars.io/instagram/s3bastienb" class="img-responsive">
-					<img src="http://avatars.io/instagram/xcast3d" class="img-responsive">
+					<img src="http://avatars.io/instagram/tonhox06" class="img-responsive">
 				</li>
 			</ul>
-			<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+			
 			
 
 			<!-- <p> Round <span class="round">1</span></p> -->
@@ -112,8 +118,6 @@
 				minutes = 0;
 	      		seconds = 0;
 			};
-
-
 		});
 
 
@@ -141,12 +145,9 @@
 	    // Game Clock
 
 	   
-
-		$(document).ready(function() {
-		    setInterval(function() {
+		setInterval(function() {
 		        updateClock()
-		    }, 1000);
-		});
+		}, 1000);
 
 		function updateClock() {
 

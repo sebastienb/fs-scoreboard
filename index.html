@@ -26,7 +26,7 @@
 			</div>
 
 			<div class="form-group">
-			    <label for="ed-player-1">Red Attack </label>
+			    <label for="red-player-1">Red Attack </label>
 			    <input id="red-player-1" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
@@ -36,14 +36,12 @@
 			</div>
 
 
-			<a href="/newgame" class="btn btn-primary">New Game</a>
+			<a id="NewGame" href="/newgame" class="btn btn-primary">New Game</a>
 
 			<hr/>
 			
 			<h4>Status</h4>
 			<div id="status" class="alert alert-info" role="alert"> </div>
-
-			
 			
 		</div>
 	</div>
@@ -53,42 +51,18 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery.velocity.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script type="text/javascript">
 	
 	jQuery(function($){
+
+		
 		
 		var socket = io.connect();
-
-		var blue_points = $(".blue_points");
-		var red_points = $(".red_points");
-		var alertDiv = $("div.alert");
-
-		var blueround1 = $(".r1-blue"); 
-		var blueround2 = $(".r2-blue");
-		var blueround3 = $(".r3-blue");
-
-		var redround1 = $(".r1-red");
-		var redround2 = $(".r2-red");
-		var redround3 = $(".r3-red");
-
-		var currentRound = $(".round");
-
-		var bluePlus = $('#blueplus');
-	    var redPlus = $('#redplus');
-	    var blueMin = $('#bluemin');
-	    var redMin = $('#redmin');
-	    var newGame = $('#newGame');
-
-	    var minutes = 0;
-		var seconds = 0;
-
 		
 		socket.on('connect', function () {
 	        console.log("connected!!");
-	       
     	});
 
 
@@ -101,81 +75,32 @@
 		socket.emit('status', 'Display connected');
 
 
-		socket.on('score-update', function(data){
-			
-			console.log('score update received');
-			// WIP to parse score msg
-
-			if (blue_points.html() != data.blue) {
-				blue_points.html(data.blue);
-			};
-
-			if (red_points.html() != data.red) {
-				red_points.html(data.red);
-			};
-
-			//console.log(data.time);
-		});
-
 		socket.on('status', function(data){
 			
 			console.log(data);
 			$("#status").html(data);
 
-			if (data == "Starting new Game...") {
-				minutes = 0;
-	      		seconds = 0;
-			};
-
-
 		});
 
+		function sendPlayerNames(){
 
-		bluePlus.click(function() {
-	      socket.emit('score', 'blueplus');
-	    });
+			var bluePlayer1 = $('#blue-player-1').val();
+			var bluePlayer2 = $('#blue-player-2').val();
+			var redPlayer1 = $('#red-player-1').val();
+			var redPlayer2 = $('#red-player-2').val();
+			socket.emit('players', {bluePlayer1: bluePlayer1, bluePlayer2: bluePlayer2, redPlayer1: redPlayer1, redPlayer2: redPlayer2});
 
-	    blueMin.click(function() {
-	      socket.emit('score', 'bluemin');
-	    });
+		};
 
-	    redPlus.click(function() {
-	      socket.emit('score', 'redplus');
-	    });
-
-	    redMin.click(function() {
-	      socket.emit('score', 'redmin');
-	    });
-
-	    newGame.click(function() {
-	      socket.emit('status', 'newGame');
-	    });
-
-
-	    // Game Clock
-
-	   
-
-		$(document).ready(function() {
-		    setInterval(function() {
-		        updateClock()
-		    }, 1000);
+		$( "#NewGame" ).click(function(e) {
+			e.preventDefault();
+			console.log('test');
+			sendPlayerNames();
+			
+			window.location ='/newgame';
 		});
 
-		function updateClock() {
-
-		    seconds +=1;
-
-		    if (seconds > 59) {
-		        seconds -= 60;
-		        minutes++;
-		    }
-		    if (minutes > 23) {
-		        minutes = 0;
-		    }
-		    $("#clock").html(minutes + ':' + seconds);
-		}
-
+		
 	});
 
 </script>
