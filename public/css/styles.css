@@ -21,9 +21,19 @@
 	}
 	
 	ul.Score li.players{
-		width:25%; 
+		width:25%;
+		border-bottom: 5px solid #067ac9; 
 	}
 
+
+	ul.Score li.players.blue{
+		width:25%;
+		border-bottom: 10px solid #067ac9; 
+	}
+	ul.Score li.players.red{
+		width:25%;
+		border-bottom: 10px solid #c90606; 
+	}
 
 	.red_points {
 		color: #c90606;
@@ -48,3 +58,6 @@
 		font-weight: 800;
 	}
 
+#scoreboard{
+	display: none;
+}

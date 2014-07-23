@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="container">
+<div id="game-settings" class="container">
 	<div class="row">
 
 		<div class="col-md-6 col-md-offset-3">
@@ -15,42 +15,92 @@
 			<h1>Players</h1>
 			<p>Enter your instagram ID to grab your avatar</p>
 			<div class="form-group">
-			    <label for="blue-player-1">Blue Attack </label>
-			    <input id="blue-player-1" type="text" class="form-control" placeholder="Instagram ID">
+			    <label for="blue-player-1-input">Blue Attack </label>
+			    <input id="blue-player-1-input" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
 
 			<div class="form-group">
-			    <label for="blue-player-2">Blue Defence </label>
-			    <input id="blue-player-2" type="text" class="form-control" placeholder="Instagram ID">
+			    <label for="blue-player-2-input">Blue Defence </label>
+			    <input id="blue-player-2-input" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
 			<div class="form-group">
-			    <label for="red-player-1">Red Attack </label>
-			    <input id="red-player-1" type="text" class="form-control" placeholder="Instagram ID">
+			    <label for="red-player-1-input">Red Attack </label>
+			    <input id="red-player-1-input" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
 			<div class="form-group">
-			    <label for="red-player-2">Red Defence </label>
-			    <input id="red-player-2" type="text" class="form-control" placeholder="Instagram ID">
+			    <label for="red-player-2-input">Red Defence </label>
+			    <input id="red-player-2-input" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
 
-			<a id="NewGame" href="/newgame" class="btn btn-primary">New Game</a>
+			<button id="NewGame"  class="btn btn-primary">New Game</button>
 
 			<hr/>
 			
-			<h4>Status</h4>
-			<div id="status" class="alert alert-info" role="alert"> </div>
 			
+			
+		</div>
+	</div>
+</div>
+
+
+
+<div id="scoreboard" class="container">
+	<div class="row">
+		
+		<div class="col-md-6 col-md-offset-3">
+			<h1>Scoreboard</h1>
+			<div class="alert"></div>
+			
+			<ul class="Score">
+				<li class="players blue">
+					<img id="blue-player-1" src="http://avatars.io/instagram/datamouth" class="img-responsive">
+					<img id="blue-player-2" src="http://avatars.io/instagram/xcast3d" class="img-responsive">
+				</li>
+				<li class="score-timer">
+					<div class="">
+						<div class="blue_points">00</div><div class="red_points">00</div>
+						
+						<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+					</div>
+				</li>
+				
+				<li class="players red">
+					<img id="red-player-1" src="http://avatars.io/instagram/s3bastienb" class="img-responsive">
+					<img id="red-player-2" src="http://avatars.io/instagram/tonhox06" class="img-responsive">
+				</li>
+			</ul>
+			
+
+			<hr/>
+
+			<p class="content-padded">Use these controls to overide the sensors on the table.</p>
+	 <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+
+    <p class="content-padded">Team Red <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
+
+    		<hr/>
 		</div>
 	</div>
 
 </div>
 
+<div class="container">
+	<div class="col-m-12">
+		<h4>Status</h4>
+		<div id="status" class="alert alert-info" role="alert"> </div>
+	</div>
+</div>
+
+
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.velocity.min.js"></script>
+<script src="/js/velocity.ui.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script type="text/javascript">
@@ -60,9 +110,58 @@
 		
 		
 		var socket = io.connect();
+
+		var blue_points = $(".blue_points");
+		var red_points = $(".red_points");
+		var alertDiv = $("div.alert");
+
+		var blueround1 = $(".r1-blue"); 
+		var blueround2 = $(".r2-blue");
+		var blueround3 = $(".r3-blue");
+
+		var redround1 = $(".r1-red");
+		var redround2 = $(".r2-red");
+		var redround3 = $(".r3-red");
+
+		var currentRound = $(".round");
+
+		var bluePlus = $('#blueplus');
+	    var redPlus = $('#redplus');
+	    var blueMin = $('#bluemin');
+	    var redMin = $('#redmin');
+	    var newGame = $('#newGame');
+
+	    var minutes = 0;
+		var seconds = 0;
+
+
+
+		function sendPlayerNames(){
+
+			var bluePlayer1 = $('#blue-player-1-input').val();
+			var bluePlayer2 = $('#blue-player-2-input').val();
+			var redPlayer1 = $('#red-player-1-input').val();
+			var redPlayer2 = $('#red-player-2-input').val();
+			socket.emit('players', {bluePlayer1: bluePlayer1, bluePlayer2: bluePlayer2, redPlayer1: redPlayer1, redPlayer2: redPlayer2});
+			$("#blue-player-1").attr("src", "http://avatars.io/instagram/"+bluePlayer1);
+			$("#blue-player-2").attr("src", "http://avatars.io/instagram/"+bluePlayer2);
+			$("#red-player-1").attr("src", "http://avatars.io/instagram/"+redPlayer1);
+			$("#red-player-2").attr("src", "http://avatars.io/instagram/"+redPlayer2);
+		};
+
+		$( "#NewGame" ).click(function(e) {
+			e.preventDefault();
+			console.log('test');
+			socket.emit('status', 'newGame');
+			sendPlayerNames();
+			$("#game-settings").velocity("transition.slideUpOut");
+			$('#scoreboard').delay(800).velocity("transition.bounceIn");
+		});
+
 		
 		socket.on('connect', function () {
 	        console.log("connected!!");
+	        socket.emit('status', 'Display connected');
     	});
 
 
@@ -71,34 +170,73 @@
 	        $("#status").html("Lost connection to server!");
 	       
     	});
-		
-		socket.emit('status', 'Display connected');
-
 
 		socket.on('status', function(data){
 			
 			console.log(data);
 			$("#status").html(data);
 
+			if (data == "Starting new Game...") {
+				minutes = 0;
+	      		seconds = 0;
+			};
+
 		});
 
-		function sendPlayerNames(){
-
-			var bluePlayer1 = $('#blue-player-1').val();
-			var bluePlayer2 = $('#blue-player-2').val();
-			var redPlayer1 = $('#red-player-1').val();
-			var redPlayer2 = $('#red-player-2').val();
-			socket.emit('players', {bluePlayer1: bluePlayer1, bluePlayer2: bluePlayer2, redPlayer1: redPlayer1, redPlayer2: redPlayer2});
-
-		};
-
-		$( "#NewGame" ).click(function(e) {
-			e.preventDefault();
-			console.log('test');
-			sendPlayerNames();
+		socket.on('score-update', function(data){
 			
-			window.location ='/newgame';
+			console.log('score update received');
+			// WIP to parse score msg
+
+			if (blue_points.html() != data.blue) {
+				blue_points.html(data.blue);
+			};
+
+			if (red_points.html() != data.red) {
+				red_points.html(data.red);
+			};
+
+			//console.log(data.time);
 		});
+
+		bluePlus.click(function() {
+	      socket.emit('score', 'blueplus');
+	    });
+
+	    blueMin.click(function() {
+	      socket.emit('score', 'bluemin');
+	    });
+
+	    redPlus.click(function() {
+	      socket.emit('score', 'redplus');
+	    });
+
+	    redMin.click(function() {
+	      socket.emit('score', 'redmin');
+	    });
+
+	    newGame.click(function() {
+	      socket.emit('status', 'newGame');
+	    });
+
+	    // Game Clock
+		setInterval(function() {
+		        updateClock()
+		}, 1000);
+
+		function updateClock() {
+
+		    seconds +=1;
+
+		    if (seconds > 59) {
+		        seconds -= 60;
+		        minutes++;
+		    }
+		    if (minutes > 23) {
+		        minutes = 0;
+		    }
+		    $("#clock").html(minutes + ':' + seconds);
+		}
 
 		
 	});
