@@ -13,7 +13,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			
 			<h1>Players</h1>
-			<p>Enter your instagram ID to grab your avatar</p>
+			
 			<div class="form-group">
 			    <label for="blue-player-1-input">Blue Attack </label>
 			    <input id="blue-player-1-input" type="text" class="form-control" placeholder="Instagram ID">
@@ -35,17 +35,12 @@
 			    <input id="red-player-2-input" type="text" class="form-control" placeholder="Instagram ID">
 			</div>
 
-
 			<button id="NewGame"  class="btn btn-primary">New Game</button>
 
 			<hr/>
-			
-			
-			
 		</div>
 	</div>
 </div>
-
 
 
 <div id="scoreboard" class="container">
@@ -106,8 +101,6 @@
 <script type="text/javascript">
 	
 	jQuery(function($){
-
-		
 		
 		var socket = io.connect();
 
@@ -133,8 +126,6 @@
 
 	    var minutes = 0;
 		var seconds = 0;
-
-
 
 		function sendPlayerNames(){
 
@@ -237,8 +228,6 @@
 		    }
 		    $("#clock").html(minutes + ':' + seconds);
 		}
-
-		
 	});
 
 </script>
