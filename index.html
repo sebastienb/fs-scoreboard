@@ -10,7 +10,7 @@
 <div id="game-settings" class="container">
 	<div class="row">
 
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-sm-12">
 			
 			<h1>Players</h1>
 			
@@ -36,8 +36,6 @@
 			</div>
 
 			<button id="NewGame"  class="btn btn-primary">New Game</button>
-
-			<hr/>
 		</div>
 	</div>
 </div>
@@ -46,50 +44,68 @@
 <div id="scoreboard" class="container">
 	<div class="row">
 		
-		<div class="col-md-6 col-md-offset-3">
-			<h1>Scoreboard</h1>
-			<div class="alert"></div>
+		<div class="col-sm-12">
 			
 			<ul class="Score">
 				<li class="players blue">
-					<img id="blue-player-1" src="http://avatars.io/instagram/datamouth" class="img-responsive">
-					<img id="blue-player-2" src="http://avatars.io/instagram/xcast3d" class="img-responsive">
+					<img id="blue-player-1" src="http://avatars.io/instagram/datamouth" class="img-responsive img-circle" width="118px" height="118px" rel="">
+					<img id="blue-player-2" src="http://avatars.io/instagram/xcast3d" class="img-responsive img-circle" width="118px" height="118px" rel="">
 				</li>
 				<li class="score-timer">
 					<div class="">
 						<div class="blue_points">00</div><div class="red_points">00</div>
-						
 						<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+						<a href="#" class="btn btn-primary">Restart Game</a>
 					</div>
 				</li>
 				
 				<li class="players red">
-					<img id="red-player-1" src="http://avatars.io/instagram/s3bastienb" class="img-responsive">
-					<img id="red-player-2" src="http://avatars.io/instagram/tonhox06" class="img-responsive">
+					<img id="red-player-1" src="http://avatars.io/instagram/s3bastienb" class="img-responsive img-circle" width="118px" height="118px" rel="">
+					<img id="red-player-2" src="http://avatars.io/instagram/tonhox06" class="img-responsive img-circle" width="118px" height="118px" rel="">
 				</li>
 			</ul>
 			
 
 			<hr/>
 
-			<p class="content-padded">Use these controls to overide the sensors on the table.</p>
-	 <p>Team Blue <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#logs" role="tab" data-toggle="tab">Game Logs</a></li>
+			  <li><a href="#controls" role="tab" data-toggle="tab">Controls</a></li>
+			  <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+			</ul>
 
-    <p class="content-padded">Team Red <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
+			<!-- Tab panes -->
+			<div class="tab-content">
+			  <div class="tab-pane active" id="logs">
+			  	<ul id="gamelogs">
+			  		
+			  	</ul>
+			  </div>
+			  <div class="tab-pane" id="controls">
+				<p class="content-padded">Use these controls to overide the sensors on the table.</p>
+				<p>Blue Team <button id="blueplus"  class="btn btn-primary">+</button> <button id="bluemin" class="btn btn-negative">-</button></p>
+				<p class="content-padded">Red Team <button id="redplus" class="btn btn-primary">+</button> <button id="redmin" class="btn btn-negative">-</button></p>
+			  </div>
+			  <div class="tab-pane" id="settings">
+			  	Coming soon
+			  </div>
+			</div>
 
-    		<hr/>
+
+			
+
+    		
 		</div>
 	</div>
 
 </div>
 
-<div class="container">
-	<div class="col-m-12">
-		<h4>Status</h4>
-		<div id="status" class="alert alert-info" role="alert"> </div>
-	</div>
-</div>
-
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <div class="container">
+    <div id="status" class="alert alert-info" role="alert"> </div>
+  </div>
+</nav>
 
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -133,14 +149,28 @@
 			var bluePlayer2 = $('#blue-player-2-input').val();
 			var redPlayer1 = $('#red-player-1-input').val();
 			var redPlayer2 = $('#red-player-2-input').val();
+			
 			socket.emit('players', {bluePlayer1: bluePlayer1, bluePlayer2: bluePlayer2, redPlayer1: redPlayer1, redPlayer2: redPlayer2});
-			$("#blue-player-1").attr("src", "http://avatars.io/instagram/"+bluePlayer1);
-			$("#blue-player-2").attr("src", "http://avatars.io/instagram/"+bluePlayer2);
-			$("#red-player-1").attr("src", "http://avatars.io/instagram/"+redPlayer1);
-			$("#red-player-2").attr("src", "http://avatars.io/instagram/"+redPlayer2);
+			$("#blue-player-1").attr({
+			  src: "http://avatars.io/instagram/"+bluePlayer1,
+			  rel: bluePlayer1
+			});
+
+			$("#blue-player-2").attr({
+			  src: "http://avatars.io/instagram/"+bluePlayer2,
+			  rel: bluePlayer2
+			});
+			$("#red-player-1").attr({
+			  src: "http://avatars.io/instagram/"+redPlayer1,
+			  rel: redPlayer1
+			});
+			$("#red-player-2").attr({
+			  src: "http://avatars.io/instagram/"+redPlayer2,
+			  rel: redPlayer2
+			});
 		};
 
-		$( "#NewGame" ).click(function(e) {
+		$("#NewGame").click(function(e) {
 			e.preventDefault();
 			console.log('test');
 			socket.emit('status', 'newGame');
@@ -175,21 +205,35 @@
 		});
 
 		socket.on('score-update', function(data){
-			
+
+			// $("li.Score").velocity("callout.pulse");
+			var pointTime = data.time;
 			console.log('score update received');
 			// WIP to parse score msg
 
 			if (blue_points.html() != data.blue) {
 				blue_points.html(data.blue);
+				$('#gamelogs').prepend('<li>Blue team sores!<span class="scoreby">Tap Player</span><span class="point-time">'+pointTime+'</span></li>');
 			};
 
 			if (red_points.html() != data.red) {
 				red_points.html(data.red);
+				$('#gamelogs').prepend('<li>Red team sores!<span class="scoreby">Tap Player</span><span class="point-time">'+pointTime+'</span></li>');
 			};
 
 			//console.log(data.time);
 		});
 
+		//Scored By function
+
+		$('li.players img').click(function() {
+
+			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
+
+
+		});
+
+		// Manula score controller
 		bluePlus.click(function() {
 	      socket.emit('score', 'blueplus');
 	    });
@@ -216,8 +260,7 @@
 		}, 1000);
 
 		function updateClock() {
-
-		    seconds +=1;
+			second = 0;
 
 		    if (seconds > 59) {
 		        seconds -= 60;
@@ -227,6 +270,8 @@
 		        minutes = 0;
 		    }
 		    $("#clock").html(minutes + ':' + seconds);
+
+		    seconds++;
 		}
 	});
 

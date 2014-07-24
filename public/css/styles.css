@@ -1,38 +1,80 @@
 /* @override 
-	http://0.0.0.0:3000/styles/styles.css */
-	
-	ul.Score {
-		width: 100%;
-		padding: 0;
-		list-style-type: none;
-		display: block;
-		background-color: #c5e5f8;
-		font-size: 72px;
-		float: left;
-		border-radius: 5px;
-		margin-bottom: 50px;
-	}
-	
-	ul.Score li{
+	http://0.0.0.0:3000/styles/styles.css
+	http://0.0.0.0:3000/css/styles.css
+	http://localhost:3000/css/styles.css */
+
+body{
+	background-image: url(../img/bg-large.jpg);
+	font-weight: 200;
+}
+
+nav.navbar.navbar-default.navbar-fixed-bottom {
+	background-color: transparent;
+	border-style: none;
+}
+
+#game-settings, #scoreboard {
+	max-width: 500px;
+	background-color: white;
+	margin-top: 5%;
+	border-radius: 5px;
+	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.13);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.13);
+	padding: 20px;
+}
+
+
+
+ul.Score {
+	width: 100%;
+	padding-top: 0;
+	padding-right: 0;
+	padding-left: 0;
+	list-style-type: none;
+	display: block;
+	font-size: 60px;
+	float: left;
+	border-bottom: 1px solid #edeeed;
+	font-weight: 100;
+}
+
+.btn-primary {
+	background-color: #49c659;
+	border-color: #3c8d68;
+}
+
+.btn-primary:hover, .btn-primary:active {
+	background-color: #33ac43;
+	border-color: #3c8d68;
+}
+
+
+
+
+ul.Score li{
 		width: 50%;
 		float: left;
 		display: block;
 		text-align: center;
-	}
+}
 	
 	ul.Score li.players{
 		width:25%;
-		border-bottom: 5px solid #067ac9; 
 	}
 
-
-	ul.Score li.players.blue{
-		width:25%;
-		border-bottom: 10px solid #067ac9; 
+	ul.Score li.players img{
+		width: 100px;
+		margin-bottom: 20px;
+		margin-right: auto;
+		margin-left: auto;
 	}
-	ul.Score li.players.red{
-		width:25%;
-		border-bottom: 10px solid #c90606; 
+
+	ul.Score li.players.blue img{
+		border: 4px solid #057ac8;
+		
+	}
+	ul.Score li.players.red img{
+		border: 4px solid #c90506;
 	}
 
 	.red_points {
@@ -50,12 +92,75 @@
 	
 	h1{
 		text-align: center;
+		margin-top: 0;
 	}
+	
+	.tab-pane{
+		padding-top: 20px;
+		height: 190px;
+		border-top: 1px solid #eceeec;
+	}
+	
+	
+	
+	ul.nav.nav-tabs li a {
+		border: none;
+		border-bottom: 2px solid transparent;
+		border-radius: 0px;
+		text-transform: uppercase;
+		font-size: 12px;
+		font-weight: bold;
+	}
+	
+	#gamelogs{
+		padding: 0 5px;
+		height: 160px;
+		overflow: scroll;
+	}
+	
+#gamelogs li {
+	list-style-type: none;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		border-bottom: 1px solid #eceeec;
+	}
+	#gamelogs li:last-of-type{
+		border: none;
+	}
+	
+	span.point-time {
+		float: right;
+		color: #c90506;
+	}
+	
+	ul.nav.nav-tabs li:hover a {
+		background-color: transparent;
+		border: none;
+		border-bottom: 2px solid #49c558;
+	}
+	
+	
+	
+	ul.nav.nav-tabs {
+		border: none;
+	}
+	
+	ul.nav.nav-tabs li.active a {
+		border: none;
+		border-bottom: 2px solid #49c558;
+	}
+	
+	
 	
 	#clock{
 		text-align: center;
 		font-size: 24px;
-		font-weight: 800;
+		font-weight: 100;
+		clear: both;
+		border-top: 1px solid #edeeed;
+		border-bottom: 1px solid #edeeed;
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 #scoreboard{
