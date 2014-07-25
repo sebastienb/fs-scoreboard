@@ -55,7 +55,7 @@
 					<div class="">
 						<div class="blue_points">00</div><div class="red_points">00</div>
 						<div id="clock">--</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-						<a href="#" class="btn btn-primary">Restart Game</a>
+						<a href="#" id="restart" class="btn btn-primary">Restart Game</a>
 					</div>
 				</li>
 				
@@ -179,6 +179,15 @@
 			$('#scoreboard').delay(800).velocity("transition.bounceIn");
 		});
 
+		$("#restart").click(function(e) {
+			e.preventDefault();
+			socket.emit('status', 'newGame');
+			sendPlayerNames();
+			second = 0;
+			$('#gamelogs').html("");
+		});
+
+
 		
 		socket.on('connect', function () {
 	        console.log("connected!!");
@@ -213,12 +222,12 @@
 
 			if (blue_points.html() != data.blue) {
 				blue_points.html(data.blue);
-				$('#gamelogs').prepend('<li>Blue team sores!<span class="scoreby">Tap Player</span><span class="point-time">'+pointTime+'</span></li>');
+				$('#gamelogs').prepend('<li>Blue team sores! <span class="scoreby">Tap Player</span> <span class="point-time">'+pointTime+'</span></li>');
 			};
 
 			if (red_points.html() != data.red) {
 				red_points.html(data.red);
-				$('#gamelogs').prepend('<li>Red team sores!<span class="scoreby">Tap Player</span><span class="point-time">'+pointTime+'</span></li>');
+				$('#gamelogs').prepend('<li>Red team sores! <span class="scoreby">Tap Player</span> <span class="point-time">'+pointTime+'</span></li>');
 			};
 
 			//console.log(data.time);

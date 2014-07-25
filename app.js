@@ -31,6 +31,7 @@ var round1,
     round2,
     round3;
 
+var connectCounter = "0"
 
 function millisecondsToStr (milliseconds) {
     // TIP: to find current time in milliseconds, use:
@@ -127,6 +128,9 @@ io.sockets.on('connection', function(socket){
 
 // Game round score keeper
     
+    connectCounter++;
+    console.log("connections: "+connectCounter);
+
 
     console.log('New device connected'.green);
     
@@ -146,13 +150,7 @@ io.sockets.on('connection', function(socket){
         socket.on('status', function(data){
             switch (data)
             { case "newGame": 
-                    bluepoints = "00"
-                    redpoints = "00"
-                    round = "1"
-                    currTime = Date.now();
-                    io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
-                    console.log('New Game Starting');
-                    io.emit('status', "Starting new Game...");
+                    newGame();
             break;
             };
         });
@@ -165,6 +163,23 @@ io.sockets.on('connection', function(socket){
             redPlayer1 = data.redPlayer1;
             redPlayer2 = data.redPlayer2;
         });
+
+function newGame() {
+    bluepoints = "00"
+    redpoints = "00"
+    round = "1"
+    currTime = Date.now();
+    io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
+    console.log('New Game Starting');
+    io.emit('status', "Starting new Game...");
+    
+};
+
+socket.on('disconnect', function() { connectCounter--; console.log("connections: "+connectCounter);
+
+
+
+});
 
 }); //end socket connection
 

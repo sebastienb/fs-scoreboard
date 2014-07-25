@@ -8,6 +8,16 @@ body{
 	font-weight: 200;
 }
 
+
+a{
+	color: #c90406;
+}
+
+
+a:hover, a:active{
+	color: #0479c8;
+}
+
 nav.navbar.navbar-default.navbar-fixed-bottom {
 	background-color: transparent;
 	border-style: none;
@@ -128,9 +138,19 @@ ul.Score li{
 		border: none;
 	}
 	
+	
+	
+	
+	
+	
+	span.scoreby {
+		font-weight: bold;
+		padding-left: 10px;
+	}
+	
 	span.point-time {
-		float: right;
 		color: #c90506;
+		float: right;
 	}
 	
 	ul.nav.nav-tabs li:hover a {
