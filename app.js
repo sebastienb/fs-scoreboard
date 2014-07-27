@@ -185,30 +185,37 @@ socket.on('disconnect', function() { connectCounter--; console.log("connections:
 
 
 
-// Johnny-five starts here
 
-// var five = require("johnny-five"),
-//     // or "./lib/johnny-five" when running from the source
-//     board = new five.Board();
+var five = require("johnny-five"),
+  board, button;
 
-// board.on("ready", function() {
+board = new five.Board();
 
-//    var laserBlue;
-//     var laserRed;
+board.on("ready", function() {
 
-//     var sensorBlue = new five.Button(8);
-//     var sensorRed = new five.Button(7); 
+  blueSensor = new five.Button(8);
+  redSensor = new five.Button(10);
 
-//   // Create an Led on pin 13 and strobe it on/off
-//   // Optionally set the speed; defaults to 100ms
-//   (new five.Led(13)).strobe();
+  board.repl.inject({
+    blueSensor: button,
+    redSensor: button
+  });
 
-// });
+  blueSensor.on("up", function() {
+    console.log("up");
+    addpoint("blueplus");
+  });
+
+  redSensor.on("up", function() {
+    console.log("up");
+    addpoint("redplus");
+  });
+  
+  
 
 
-// Johnny-five dies here
 
-
+});
 
 
 
