@@ -64,8 +64,6 @@
 					<img id="red-player-2" src="http://avatars.io/instagram/tonhox06" class="img-responsive img-circle" width="118px" height="118px" rel="">
 				</li>
 			</ul>
-			
-
 			<hr/>
 
 			<!-- Nav tabs -->
@@ -90,12 +88,7 @@
 			  <div class="tab-pane" id="settings">
 			  	Coming soon
 			  </div>
-			</div>
-
-
-			
-
-    		
+			</div>	
 		</div>
 	</div>
 
@@ -103,11 +96,9 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
   <div class="container">
-    <div id="status" class="alert alert-info" role="alert"> </div>
+    <div id="status"> </div>
   </div>
 </nav>
-
-
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.velocity.min.js"></script>
@@ -122,7 +113,7 @@
 
 		var blue_points = $(".blue_points");
 		var red_points = $(".red_points");
-		var alertDiv = $("div.alert");
+		var alertDiv = $("div#status");
 
 		var blueround1 = $(".r1-blue"); 
 		var blueround2 = $(".r2-blue");
@@ -197,14 +188,14 @@
 
 		socket.on('disconnect', function () {
 	        console.log("disconnected!!");
-	        $("#status").html("Lost connection to server!");
+	        alertDiv.html("Lost connection to server!");
 	       
     	});
 
 		socket.on('status', function(data){
 			
 			console.log(data);
-			$("#status").html(data);
+			alertDiv.html(data);
 
 			if (data == "Starting new Game...") {
 				minutes = 0;
@@ -236,10 +227,7 @@
 		//Scored By function
 
 		$('li.players img').click(function() {
-
 			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
-
-
 		});
 
 		// Manula score controller

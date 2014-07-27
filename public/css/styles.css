@@ -4,9 +4,14 @@
 	http://localhost:3000/css/styles.css */
 
 body{
-	background-image: url(../img/bg-large.jpg);
 	font-weight: 200;
+	background: url(../img/bg-large.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
+
 
 
 a{
@@ -185,4 +190,12 @@ ul.Score li{
 
 #scoreboard{
 	display: none;
+}
+
+div#status {
+	background-color: rgba(0, 0, 0, 0.73);
+	padding: 5px 10px;
+	color: #cb9a4f;
+	font-size: 14px;
+	border-radius: 3px;
 }
