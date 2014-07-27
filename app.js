@@ -56,15 +56,12 @@ function millisecondsToStr (milliseconds) {
 }
 
 
-
-
 function addpoint(data){
 
     var currentBP = Number(bluepoints),
         currentRP = Number(redpoints),
         pointTime =     millisecondsToStr(Date.now() - currTime);
 
-    
     console.log(pointTime);
 
     switch (data)
@@ -115,71 +112,61 @@ function addpoint(data){
         io.emit('status', 'Red Team Wins!');
     };
 
-
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round, time : pointTime});
-    console.log('Score '+pointTime+' !'.blue);
-    
+    console.log('Score '+pointTime+'!'.blue);   
 };
 
 console.log('Server listening on port 3000'.green);
 
 // On first client connection start a new game
 io.sockets.on('connection', function(socket){
-
-// Game round score keeper
-    
     connectCounter++;
     console.log("connections: "+connectCounter);
-
-
     console.log('New device connected'.green);
-    
     io.emit('status', 'New device connected!');
 
-// Send score update to all devices on new connection
+    // Send score update to all devices on new connection
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
 
-// Receiving info from remote page        
-        socket.on('score', function(data){
-            
-            console.log('score received from Remote'.green)
-            // io.emit('score-update', data);
-            addpoint(data);
-        });
+    // Receiving info from remote page        
+            socket.on('score', function(data){
+                
+                console.log('score received from Remote'.green)
+                // io.emit('score-update', data);
+                addpoint(data);
+            });
 
-        socket.on('status', function(data){
-            switch (data)
-            { case "newGame": 
-                    newGame();
-            break;
-            };
-        });
-
-
-        socket.on('players', function(data){
-            console.log(data);
-            bluePlayer1 = data.bluePlayer1;
-            bluePlayer2 = data.bluePlayer2;
-            redPlayer1 = data.redPlayer1;
-            redPlayer2 = data.redPlayer2;
-        });
-
-function newGame() {
-    bluepoints = "00"
-    redpoints = "00"
-    round = "1"
-    currTime = Date.now();
-    io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
-    console.log('New Game Starting');
-    io.emit('status', "Starting new Game...");
-    
-};
-
-socket.on('disconnect', function() { connectCounter--; console.log("connections: "+connectCounter);
+            socket.on('status', function(data){
+                switch (data)
+                { case "newGame": 
+                        newGame();
+                break;
+                };
+            });
 
 
+            socket.on('players', function(data){
+                console.log(data);
+                bluePlayer1 = data.bluePlayer1;
+                bluePlayer2 = data.bluePlayer2;
+                redPlayer1 = data.redPlayer1;
+                redPlayer2 = data.redPlayer2;
+            });
 
-});
+    function newGame() {
+        bluepoints = "00"
+        redpoints = "00"
+        round = "1"
+        currTime = Date.now();
+        io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
+        console.log('New Game Starting');
+        io.emit('status', "Starting new Game...");
+        
+    };
+
+    socket.on('disconnect', function() { 
+        connectCounter--; console.log("connections: "+connectCounter);
+    });
 
 }); //end socket connection
 
@@ -193,28 +180,42 @@ board = new five.Board();
 
 board.on("ready", function() {
 
-  blueSensor = new five.Button(8);
-  redSensor = new five.Button(10);
+    var piezo = new five.Piezo(3);  
+    var blueSensor = new five.Button(8);
+    var redSensor = new five.Button(10);
 
-  board.repl.inject({
-    blueSensor: button,
-    redSensor: button
-  });
+    board.repl.inject({
+        blueSensor: button,
+        redSensor: button
+    });
 
-  blueSensor.on("up", function() {
-    console.log("up");
-    addpoint("blueplus");
-  });
+    blueSensor.on("up", function() {
+        console.log("up");
+        addpoint("blueplus");
+    });
 
-  redSensor.on("up", function() {
-    console.log("up");
-    addpoint("redplus");
-  });
-  
-  
+    redSensor.on("up", function() {
+        console.log("up");
+        addpoint("redplus");
+    });
 
-
-
+   function goal(){
+        piezo.play({
+        // song is composed by an array of pairs of notes and beats
+        // The first argument is the note (null means "no note")
+        // The second argument is the length of time (beat) of the note (or non-note)
+            song: [
+              
+                ["d4", 1/4],
+                [null, 1/8],
+                ["c#4", 1/4],
+                [null, 1/8],
+                ["g5", 1.5] 
+            ],
+            tempo: 150
+        });
+    };
+    goal();
 });
 
 
