@@ -4,12 +4,11 @@
   "description": "A Foosball table Scoreboard",
   "version": "0.0.1",
   "repository": "https://bitbucket.org/3sparks/scoreboard",
-
   "dependencies": {
     "colors": "*",
-    "socket.io": "latest",
     "express": "latest",
     "johnny-five": "latest",
-    "orm":"latest"
-  } 
+    "mongoose": "^3.8.14",
+    "socket.io": "latest"
+  }
 }
