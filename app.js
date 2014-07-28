@@ -175,15 +175,12 @@ function newGame() {
     
 };
 
-socket.on('disconnect', function() { connectCounter--; console.log("connections: "+connectCounter);
-
-
+socket.on('disconnect', function() { 
+    connectCounter--; console.log("connections: "+connectCounter);
 
 });
 
 }); //end socket connection
-
-
 
 
 var five = require("johnny-five"),
@@ -210,11 +207,6 @@ board.on("ready", function() {
     console.log("up");
     addpoint("redplus");
   });
-  
-  
-
-
-
 });
 
 
