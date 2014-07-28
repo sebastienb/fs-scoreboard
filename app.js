@@ -18,8 +18,8 @@ app.get('/newgame', function(req, res) {
 });
 
 // Initial var values
-var bluepoints = "00",
-    redpoints = "00",
+var bluepoints = "0",
+    redpoints = "0",
     round = "1",
     bluePlayer1 = "",
     bluePlayer2 = "",
