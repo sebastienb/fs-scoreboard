@@ -7,17 +7,28 @@ var express = require('express'),
 
 server.listen(3000);
 
-
 // Database stuff
 mongoose.connect('mongodb://foostable:republica@ds059908.mongolab.com:59908/foosball');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
-  // yay!
   console.log('Yay connected to DB');
 });
 
+var gameShema = mongoose.Schema({
+    gameDate: Date,
+});
 
+var playerSchema = mongoose.Schema({
+    name: String,
+    instagramId: String,
+});
+
+var pointSchema = mongoose.Schema({
+    pointScoredTime: String,
+    point: Number,
+});
+// end Database stuff
 
 app.use(express.static(__dirname + '/public'));
 
@@ -74,7 +85,7 @@ function addpoint(data){
     var currentBP = Number(bluepoints),
         currentRP = Number(redpoints),
         pointTime =     millisecondsToStr(Date.now() - currTime);
-
+    goal();
     console.log(pointTime);
 
     switch (data)
@@ -141,8 +152,6 @@ io.sockets.on('connection', function(socket){
     // Send score update to all devices on new connection
     io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
 
-
-
     // Receiving info from remote page        
             socket.on('score', function(data){
                 
@@ -185,53 +194,54 @@ io.sockets.on('connection', function(socket){
 
 }); //end socket connection
 
+var five = require("johnny-five"),
+    board,
+    button;
 
-// var five = require("johnny-five"),
-//   board, button;
+function goal() {
+    var piezo = new five.Piezo(3);
+    piezo.play({
+    // song is composed by an array of pairs of notes and beats
+    // The first argument is the note (null means "no note")
+    // The second argument is the length of time (beat) of the note (or non-note)
+        song: [
+          
+            ["d4", 1/4],
+            [null, 1/8],
+            ["c#4", 1/4],
+            [null, 1/8],
+            ["g5", 1.5] 
+        ],
+        tempo: 150
+    });
+};
 
-// board = new five.Board();
+board = new five.Board();
 
-// board.on("ready", function() {
+board.on("ready", function() {
+  
+    var blueSensor = new five.Button(8);
+    var redSensor = new five.Button(10);
 
-//     var piezo = new five.Piezo(3);  
-//     var blueSensor = new five.Button(8);
-//     var redSensor = new five.Button(10);
+    board.repl.inject({
+        blueSensor: button,
+        redSensor: button
+    });
 
-//     board.repl.inject({
-//         blueSensor: button,
-//         redSensor: button
-//     });
+    blueSensor.on("up", function() {
+        console.log("up");
+        addpoint("blueplus");
+      
+    });
 
-//     blueSensor.on("up", function() {
-//         console.log("up");
-//         addpoint("blueplus");
-//         goal();
-//     });
+    redSensor.on("up", function() {
+        console.log("up");
+        addpoint("redplus");
+       
+    });
 
-//     redSensor.on("up", function() {
-//         console.log("up");
-//         addpoint("redplus");
-//         goal();
-//     });
-
-//    function goal(){
-//         piezo.play({
-//         // song is composed by an array of pairs of notes and beats
-//         // The first argument is the note (null means "no note")
-//         // The second argument is the length of time (beat) of the note (or non-note)
-//             song: [
-              
-//                 ["d4", 1/4],
-//                 [null, 1/8],
-//                 ["c#4", 1/4],
-//                 [null, 1/8],
-//                 ["g5", 1.5] 
-//             ],
-//             tempo: 150
-//         });
-//     };
-//     goal();
-// });
+    goal();
+});
 
 
 

@@ -227,6 +227,7 @@
 		//Scored By function
 
 		$('li.players img').click(function() {
+			$(this).velocity("callout.tada");
 			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
 		});
 
