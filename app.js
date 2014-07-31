@@ -37,9 +37,6 @@ app.get('/', function(req, res) {
 });
 
 
-app.get('/newgame', function(req, res) {
-    res.sendfile(__dirname + '/game.html');
-});
 
 // Initial var values
 var bluepoints = "0",
