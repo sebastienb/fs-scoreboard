@@ -52,20 +52,6 @@ var foosballGame = {
 
 console.log(foosballGame.currTime);
 
-
-var bluepoints = "0",
-    redpoints = "0",
-    round = "1",
-    bluePlayer1 = "",
-    bluePlayer2 = "",
-    redPlayer1 = "",
-    redPlayer2 = "",
-    currTime = Date.now();
-
-var round1,
-    round2,
-    round3;
-
 var connectCounter = "0"
 
 function millisecondsToStr (milliseconds) {
@@ -92,61 +78,54 @@ function millisecondsToStr (milliseconds) {
 
 function addpoint(data){
 
-    var currentBP = Number(bluepoints),
-        currentRP = Number(redpoints),
-        pointTime =     millisecondsToStr(Date.now() - currTime);
-    goal();
+    var pointTime =     millisecondsToStr(Date.now() - foosballGame.currTime);
+    // goal();
     console.log(pointTime);
 
     switch (data)
         {
            case "blueplus":
                 console.log('blue team plus 1');
-                // var current = Number(bluepoints);
-                bluepoints = currentBP+1;
-                console.log(bluepoints);
+                foosballGame.bluepoints = Number(foosballGame.bluepoints)+1;
+                console.log(foosballGame.bluepoints);
             break;
            
            case "redplus":
                 console.log('Red team plus 1');
-                //var current = Number(redpoints);
-                redpoints = currentRP+1;
-                console.log(redpoints);
+                foosballGame.redpoints = Number(foosballGame.redpoints)+1;
+                console.log(foosballGame.redpoints);
             break;
 
            case "bluemin":
                 console.log('blue team minus 1');
-                //var current = Number(bluepoints);
-                bluepoints = currentBP-1;
-                console.log(bluepoints);
+                foosballGame.bluepoints = currentBP-1;
+                console.log(foosballGame.bluepoints);
             break;
 
            case "redmin":
                 console.log('Red team minus 1');
-                //var current = Number(redpoints);
-                redpoints = currentRP-1;
-                console.log(redpoints);
+                foosballGame.redpoints = currentRP-1;
+                console.log(foosballGame.redpoints);
             break;
 
            default: 
-                console.log('unknown message received:'+data);
+                console.log('unknown message received: '+data);
             break;
         };
 
     // check for wins
         
-    if (bluepoints == "10") {
+    if (foosballGame.bluepoints == "10") {
         console.log("Blue team wins!".blue);
         io.emit('status', 'Blue Team Wins!');
     };
 
-    if (redpoints == "10") {
-        console.log("Blue team wins!".blue);
-       
+    if (foosballGame.redpoints == "10") {
+        console.log("Red team wins!".blue);
         io.emit('status', 'Red Team Wins!');
     };
 
-    io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round, time : pointTime});
+    io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints, time : pointTime});
     console.log('Score '+pointTime+'!'.blue);   
 };
 
@@ -160,7 +139,7 @@ io.sockets.on('connection', function(socket){
     io.emit('status', 'New device connected!');
 
     // Send score update to all devices on new connection
-    io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
+    io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints});
 
     // Receiving info from remote page        
             socket.on('score', function(data){
@@ -188,11 +167,11 @@ io.sockets.on('connection', function(socket){
             });
 
     function newGame() {
-        bluepoints = "00"
-        redpoints = "00"
-        round = "1"
-        currTime = Date.now();
-        io.emit('score-update', {blue: bluepoints, red: redpoints, currentround: round});
+        foosballGame.bluepoints = "00"
+        foosballGame.redpoints = "00"
+        
+        foosballGame.currTime = Date.now();
+        io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints});
         console.log('New Game Starting');
         io.emit('status', "Starting new Game...");
         
