@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/styles.css" rel="stylesheet">
+	<title>Fooseball Display</title>
+</head>
+<body>
+
+
+
+
+<div id="scores" class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<h1>Previous Saved Games</h1>
+			<div class="data"></div>
+		</div>
+
+	</div>
+
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <div class="container">
+    <div id="status"> </div>
+  </div>
+</nav>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.velocity.min.js"></script>
+<script src="/js/velocity.ui.min.js"></script>
+<script src="/js/scores.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script type="text/javascript"> 
+ $(document).ready(function() {
+	var socket = io.connect();
+	
+	socket.on('connect', function () {
+		console.log("connected!!");
+		socket.emit('status', 'Display connected');
+	});
+
+	socket.on('gamescores', function(data){
+			
+			console.log(data);
+			scores = data
+			$(".data").html(scores);
+    	});
+   
+ });
+</script>
+
+</body>
+
+</html>

@@ -7,6 +7,7 @@ var express = require('express'),
 
 server.listen(3000);
 
+
 // Database stuff
 mongoose.connect('mongodb://foostable:republica@ds059908.mongolab.com:59908/foosball');
 var db = mongoose.connection;
@@ -15,19 +16,51 @@ db.once('open', function callback () {
   console.log('Yay connected to DB');
 });
 
-var gameShema = mongoose.Schema({
+
+var gameSchema = mongoose.Schema({
     gameDate: Date,
+    bluepoints: Number,
+    redpoints: Number,
+    bluePlayer1: String,
+    bluePlayer2: String,
+    redPlayer1: String,
+    redPlayer2: String,
+
 });
 
-var playerSchema = mongoose.Schema({
-    name: String,
-    instagramId: String,
-});
+var gameData = mongoose.model('gameData', gameSchema)
 
-var pointSchema = mongoose.Schema({
-    pointScoredTime: String,
-    point: Number,
-});
+
+
+
+function saveGame() {
+        console.log("saving game!".yellow);
+
+        var newGameData = new gameData({
+            bluepoints: foosballGame.bluepoints, 
+            redpoints: foosballGame.redpoints, 
+            bluePlayer1: foosballGame.bluePlayer1,
+            bluePlayer2: foosballGame.bluePlayer2,
+            redPlayer1: foosballGame.redPlayer1,
+            redPlayer2: foosballGame.redPlayer2
+
+        });
+        newGameData.save(function (err) {
+          if (err) return console.error(err);
+          console.log('meow');
+        });
+};
+
+
+// var playerSchema = mongoose.Schema({
+//     name: String,
+//     instagramId: String,
+// });
+
+// var pointSchema = mongoose.Schema({
+//     pointScoredTime: String,
+//     point: Number,
+// });
 // end Database stuff
 
 app.use(express.static(__dirname + '/public'));
@@ -36,7 +69,9 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
-
+app.get('/games', function(req, res) {
+    res.sendfile(__dirname + '/games.html');
+});
 
 // Initial var values
 
@@ -118,11 +153,13 @@ function addpoint(data){
     if (foosballGame.bluepoints == "10") {
         console.log("Blue team wins!".blue);
         io.emit('status', 'Blue Team Wins!');
+        saveGame();
     };
 
     if (foosballGame.redpoints == "10") {
         console.log("Red team wins!".blue);
         io.emit('status', 'Red Team Wins!');
+        saveGame();
     };
 
     io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints, time : pointTime});
@@ -133,6 +170,13 @@ console.log('Server listening on port 3000'.green);
 
 // On first client connection start a new game
 io.sockets.on('connection', function(socket){
+
+    gameData.find(function (err, gameData) {
+      if (err) return console.error(err);
+      console.log(gameData)
+      io.emit('gamescores',gameData);
+    });
+    
     connectCounter++;
     console.log("connections: "+connectCounter);
     console.log('New device connected'.green);
@@ -152,29 +196,26 @@ io.sockets.on('connection', function(socket){
             socket.on('status', function(data){
                 switch (data)
                 { case "newGame": 
-                        newGame();
+                    newGame();
                 break;
                 };
             });
 
-
             socket.on('players', function(data){
                 console.log(data);
-                bluePlayer1 = data.bluePlayer1;
-                bluePlayer2 = data.bluePlayer2;
-                redPlayer1 = data.redPlayer1;
-                redPlayer2 = data.redPlayer2;
+                foosballGame.bluePlayer1 = data.bluePlayer1;
+                foosballGame.bluePlayer2 = data.bluePlayer2;
+                foosballGame.redPlayer1 = data.redPlayer1;
+                foosballGame.redPlayer2 = data.redPlayer2;
             });
 
     function newGame() {
         foosballGame.bluepoints = "00"
         foosballGame.redpoints = "00"
-        
         foosballGame.currTime = Date.now();
         io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints});
         console.log('New Game Starting');
-        io.emit('status', "Starting new Game...");
-        
+        io.emit('status', "Starting new Game...");    
     };
 
     socket.on('disconnect', function() { 

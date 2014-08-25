@@ -39,6 +39,16 @@ nav.navbar.navbar-default.navbar-fixed-bottom {
 }
 
 
+#scores {
+	max-width: 500px;
+	background-color: white;
+	margin-top: 5%;
+	border-radius: 5px;
+	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.13);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.13);
+	padding: 20px;
+}
+
 
 ul.Score {
 	width: 100%;
@@ -49,13 +59,13 @@ ul.Score {
 	display: block;
 	font-size: 60px;
 	float: left;
-	border-bottom: 1px solid #edeeed;
+/*	border-bottom: 1px solid #edeeed;*/
 	font-weight: 100;
 }
 
 .btn-primary {
 	background-color: #49c659;
-	border-color: #3c8d68;
+	border-color: #5dc850;
 }
 
 .btn-primary:hover, .btn-primary:active {
@@ -85,11 +95,12 @@ ul.Score li{
 	}
 
 	ul.Score li.players.blue img{
-		border: 4px solid #057ac8;
+		border: 3px solid #057ac8;
 		
 	}
 	ul.Score li.players.red img{
-		border: 4px solid #c90506;
+		border: 3px solid #c90506;
+		
 	}
 
 	.red_points {
@@ -190,6 +201,26 @@ ul.Score li{
 
 #scoreboard{
 	display: none;
+/*	border-bottom: 15px solid #66c75a;
+	border-top: 15px solid #66c75a;*/
+}
+
+div.player-points {
+	font-size: 12px;
+	background-color: red;
+	color: white;
+	width: 20px;
+	height: 20px;
+	border-radius: 50px;
+	text-align: center;
+	line-height: 20px;
+	position: relative;
+	top: -37px;
+	left: 20px;
+	display: none;
+	float: left;
+	margin-bottom: -20px;
+	font-weight: bold;
 }
 
 div#status {
