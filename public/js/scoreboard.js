@@ -58,7 +58,7 @@ jQuery(function($){
 			socket.emit('status', 'newGame');
 			sendPlayerNames();
 			$("#game-settings").velocity("transition.slideUpOut");
-			$('#scoreboard').delay(800).velocity("transition.bounceIn");
+			$('.scoreboard').delay(800).velocity("transition.bounceIn");
 		});
 
 		$("#restart").click(function(e) {
@@ -120,6 +120,7 @@ jQuery(function($){
 		$('li.players img').click(function() {
 			$(this).velocity("callout.tada");
 			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
+			socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html()});
 		});
 
 		// Manula score controller

@@ -28,7 +28,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom {
 	border-style: none;
 }
 
-#game-settings, #scoreboard {
+#game-settings, .scoreboard {
 	max-width: 500px;
 	background-color: white;
 	margin-top: 5%;
@@ -199,7 +199,7 @@ ul.Score li{
 		padding-bottom: 10px;
 	}
 
-#scoreboard{
+.scoreboard{
 	display: none;
 /*	border-bottom: 15px solid #66c75a;
 	border-top: 15px solid #66c75a;*/

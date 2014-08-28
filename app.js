@@ -42,7 +42,8 @@ function saveGame() {
             bluePlayer1: foosballGame.bluePlayer1,
             bluePlayer2: foosballGame.bluePlayer2,
             redPlayer1: foosballGame.redPlayer1,
-            redPlayer2: foosballGame.redPlayer2
+            redPlayer2: foosballGame.redPlayer2,
+            gameDate: foosballGame.currTime
 
         });
         newGameData.save(function (err) {
@@ -82,7 +83,15 @@ var foosballGame = {
     bluePlayer2:"",
     redPlayer1:"",
     redPlayer2:"",
-    currTime: Date.now()
+    currTime: Date.now(),
+    gamePoints:{
+        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
+        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
+        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
+        gamePoint:{point:"-1", scoredBy:"", scoredAt:"pointTime"},
+        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
+
+    }
 };
 
 console.log(foosballGame.currTime);
@@ -207,6 +216,10 @@ io.sockets.on('connection', function(socket){
                 foosballGame.bluePlayer2 = data.bluePlayer2;
                 foosballGame.redPlayer1 = data.redPlayer1;
                 foosballGame.redPlayer2 = data.redPlayer2;
+            });
+
+            socket.on('pointData', function(data){
+                console.log(data);
             });
 
     function newGame() {

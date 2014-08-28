@@ -8,24 +8,53 @@
 <body>
 
 
-
-
 <div id="scores" class="container">
 	<div class="row">
 		<div class="col-sm-12">
-			<h1>Previous Saved Games</h1>
-			<div class="data"></div>
+			<h2>Previous Saved Games</h2>
 		</div>
 
 	</div>
 
+	<div class="row">
+		
+		<ul id="score-list">
+			
+			<!-- <li>
+				<h4>Date</h4>
+				<table class="table table-condensed">
+			      <thead>
+			        <tr>
+			          <th>Players</th>
+			          <th>Scores</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <tr>
+			          <td>
+				          <img id="blue-player-1" src="" class="img-circle" width="32px" height="32px" rel=""> sebastienb
+				          <img id="blue-player-1" src="" class="img-circle" width="32px" height="32px" rel=""> xcast3d
+			          </td>
+			          <td>6</td>
+			        </tr>
+			        <tr>
+			          <td>
+				          <img id="blue-player-1" src="" class="img-circle" width="32px" height="32px" rel=""> Samg
+				          <img id="blue-player-1" src="" class="img-circle" width="32px" height="32px" rel=""> datamouth
+				      </td>
+			          <td>10</td>
+			        </tr>
+			      </tbody>
+			    </table>
+			</li> -->
+
+		</ul>
+	</div>
+
 </div>
 
-<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-  <div class="container">
-    <div id="status"> </div>
-  </div>
-</nav>
+
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.velocity.min.js"></script>
@@ -45,8 +74,49 @@
 	socket.on('gamescores', function(data){
 			
 			console.log(data);
-			scores = data
-			$(".data").html(scores);
+
+			$.each( data, function( key, value ) {
+
+			  
+			  var scoreItem = '<li>\
+				<h4>'+value["gameDate"]+'</h4>\
+				<table class="table table-condensed">\
+			      <thead>\
+			        <tr>\
+			          <th>Players</th>\
+			          <th>Scores</th>\
+			        </tr>\
+			      </thead>\
+			      <tbody>\
+			        <tr>\
+			          <td>\
+				          <img id="blue-player-1" src="http://avatars.io/instagram/'+value["bluePlayer1"]+'" class="img-circle" width="32px" height="32px" rel=""> '+value["bluePlayer1"]+'\
+				          <img id="blue-player-1" src="http://avatars.io/instagram/'+value["bluePlayer2"]+'" class="img-circle" width="32px" height="32px" rel=""> '+value["bluePlayer2"]+'\
+			          </td>\
+			          <td>'+value["bluepoints"]+'</td>\
+			        </tr>\
+			        <tr>\
+			          <td>\
+				          <img id="blue-player-1" src="http://avatars.io/instagram/'+value["redPlayer1"]+'" class="img-circle" width="32px" height="32px" rel=""> '+value["redPlayer1"]+'\
+				          <img id="blue-player-1" src="http://avatars.io/instagram/'+value["redPlayer2"]+'" class="img-circle" width="32px" height="32px" rel=""> '+value["redPlayer2"]+'\
+				      </td>\
+			          <td>'+value["redpoints"]+'</td>\
+			        </tr>\
+			      </tbody>\
+			    </table>\
+			</li>'
+
+			 $('#score-list').append(scoreItem);
+			  console.log(key + ": " + value["redpoints"]);
+
+
+
+
+			});
+
+			// console.log(data);
+			// scores = data
+			// $(".data").html(scores);
     	});
    
  });
