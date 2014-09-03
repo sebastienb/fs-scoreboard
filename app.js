@@ -31,8 +31,6 @@ var gameSchema = mongoose.Schema({
 var gameData = mongoose.model('gameData', gameSchema)
 
 
-
-
 function saveGame() {
         console.log("saving game!".yellow);
 
@@ -51,7 +49,6 @@ function saveGame() {
           console.log('meow');
         });
 };
-
 
 // var playerSchema = mongoose.Schema({
 //     name: String,
@@ -90,7 +87,6 @@ var foosballGame = {
         gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
         gamePoint:{point:"-1", scoredBy:"", scoredAt:"pointTime"},
         gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
-
     }
 };
 
