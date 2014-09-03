@@ -24,6 +24,7 @@ jQuery(function($){
 
 	    var minutes = 0;
 		var seconds = 0;
+		var pointState = "";
 
 		function sendPlayerNames(){
 
@@ -105,11 +106,15 @@ jQuery(function($){
 			if (blue_points.html() != data.blue) {
 				blue_points.html(data.blue);
 				$('#gamelogs').prepend('<li class="blue">Blue team sores! <span class="scoreby">Tap Player</span> <span class="point-time">'+pointTime+'</span></li>');
+				pointState = "blue";
+				console.log('blue team scores');
 			};
 
 			if (red_points.html() != data.red) {
 				red_points.html(data.red);
 				$('#gamelogs').prepend('<li class="red">Red team sores! <span class="scoreby">Tap Player</span> <span class="point-time">'+pointTime+'</span></li>');
+				pointState = "red";
+				console.log('red team scores');
 			};
 
 			//console.log(data.time);
@@ -120,7 +125,31 @@ jQuery(function($){
 		$('li.players img').click(function() {
 			$(this).velocity("callout.tada");
 			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
-			socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html()});
+			
+			console.log(pointState);
+			// Check for autogoal
+
+			if ($(this).hasClass(pointState)) {
+				
+				socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point:'1'});
+				console.log('Goal!!');
+				$(this).next().css("display", "block");
+
+				var playerPoints = (Number($(this).next().html())+1);
+				console.log(playerPoints);
+				$(this).next().html(playerPoints);
+
+
+			}else{
+				socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point: '-1'});
+				console.log('Autogoal!!!');
+				$(this).next().css("display", "block");
+				var playerPoints = (Number($(this).next().html())-1);
+				console.log(playerPoints);
+				$(this).next().html(playerPoints);
+			};
+
+
 		});
 
 		// Manula score controller
