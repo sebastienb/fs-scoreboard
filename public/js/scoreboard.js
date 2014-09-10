@@ -24,7 +24,7 @@ jQuery(function($){
 
 	    var minutes = 0;
 		var seconds = 0;
-		var pointState = "";
+		var pointState = "null";
 
 		function sendPlayerNames(){
 
@@ -68,10 +68,12 @@ jQuery(function($){
 			sendPlayerNames();
 			second = 0;
 			$('#gamelogs').html("");
+			//set player scores to 0
+			$('li.players img').next().html("0");
+			$('li.players img').next().css("display", "none");
+
 		});
 
-
-		
 		socket.on('connect', function () {
 	        console.log("connected!!");
 	        socket.emit('status', 'Display connected');
@@ -123,33 +125,36 @@ jQuery(function($){
 		//Scored By function
 
 		$('li.players img').click(function() {
-			$(this).velocity("callout.tada");
-			$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
-			
-			console.log(pointState);
-			// Check for autogoal
+			if (pointState != "null") {
 
-			if ($(this).hasClass(pointState)) {
+				$(this).velocity("callout.tada");
+				$('#gamelogs li:first-of-type span.scoreby').html($(this).attr("rel"));
 				
-				socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point:'1'});
-				console.log('Goal!!');
-				$(this).next().css("display", "block");
+				console.log(pointState);
+				// Check for autogoal
 
-				var playerPoints = (Number($(this).next().html())+1);
-				console.log(playerPoints);
-				$(this).next().html(playerPoints);
+				if ($(this).hasClass(pointState)) {
+					
+					socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point:'1'});
+					console.log('Goal!!');
+					$(this).next().css("display", "block");
+
+					var playerPoints = (Number($(this).next().html())+1);
+					console.log(playerPoints);
+					$(this).next().html(playerPoints);
 
 
-			}else{
-				socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point: '-1'});
-				console.log('Autogoal!!!');
-				$(this).next().css("display", "block");
-				var playerPoints = (Number($(this).next().html())-1);
-				console.log(playerPoints);
-				$(this).next().html(playerPoints);
+				}else{
+					socket.emit('pointData', {player:$(this).attr("rel"), pointTime: $('#gamelogs li:first-of-type span.point-time').html(), point: '-1'});
+					console.log('Autogoal!!!');
+					$(this).next().css("display", "block");
+					var playerPoints = (Number($(this).next().html())-1);
+					console.log(playerPoints);
+					$(this).next().html(playerPoints);
+				};
+				pointState = "null";
+
 			};
-
-
 		});
 
 		// Manula score controller
