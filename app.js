@@ -81,13 +81,7 @@ var foosballGame = {
     redPlayer1:"",
     redPlayer2:"",
     currTime: Date.now(),
-    gamePoints:{
-        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
-        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
-        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
-        gamePoint:{point:"-1", scoredBy:"", scoredAt:"pointTime"},
-        gamePoint:{point:"1", scoredBy:"", scoredAt:"pointTime"},
-    }
+    gamePoints:{}
 };
 
 console.log(foosballGame.currTime);
