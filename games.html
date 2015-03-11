@@ -7,26 +7,17 @@
 </head>
 <body>
 
-
 <div id="scores" class="container">
 	<div class="row">
 		<div class="col-sm-12">
 			<h2>Previous Saved Games</h2>
 		</div>
-
 	</div>
-
 	<div class="row">
-		
 		<ul id="score-list">
-			
-
 		</ul>
 	</div>
-
 </div>
-
-
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
@@ -46,12 +37,11 @@
 
 	socket.on('gamescores', function(data){
 			
-			console.log(data);
+		console.log(data);
 
-			$.each( data, function( key, value ) {
-
-			  
-			  var scoreItem = '<li>\
+		$.each( data, function( key, value ) {
+		  
+		  var scoreItem = '<li>\
 				<h4>'+value["gameDate"]+'</h4>\
 				<table class="table table-condensed">\
 			      <thead>\
@@ -79,17 +69,13 @@
 			    </table>\
 			</li>'
 
-			 $('#score-list').append(scoreItem);
-			  console.log(key + ": " + value["redpoints"]);
+		 	$('#score-list').append(scoreItem);
+		  	console.log(key + ": " + value["redpoints"]);
+		});
 
-
-
-
-			});
-
-			// console.log(data);
-			// scores = data
-			// $(".data").html(scores);
+		// console.log(data);
+		// scores = data
+		// $(".data").html(scores);
     	});
    
  });

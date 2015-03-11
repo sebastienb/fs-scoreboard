@@ -32,22 +32,22 @@ var gameData = mongoose.model('gameData', gameSchema)
 
 
 function saveGame() {
-        console.log("saving game!".yellow);
+    console.log("saving game!".yellow);
 
-        var newGameData = new gameData({
-            bluepoints: foosballGame.bluepoints, 
-            redpoints: foosballGame.redpoints, 
-            bluePlayer1: foosballGame.bluePlayer1,
-            bluePlayer2: foosballGame.bluePlayer2,
-            redPlayer1: foosballGame.redPlayer1,
-            redPlayer2: foosballGame.redPlayer2,
-            gameDate: foosballGame.currTime
+    var newGameData = new gameData({
+        bluepoints: foosballGame.bluepoints, 
+        redpoints: foosballGame.redpoints, 
+        bluePlayer1: foosballGame.bluePlayer1,
+        bluePlayer2: foosballGame.bluePlayer2,
+        redPlayer1: foosballGame.redPlayer1,
+        redPlayer2: foosballGame.redPlayer2,
+        gameDate: foosballGame.currTime
 
-        });
-        newGameData.save(function (err) {
-          if (err) return console.error(err);
-          console.log('meow');
-        });
+    });
+    newGameData.save(function (err) {
+      if (err) return console.error(err);
+      console.log('meow');
+    });
 };
 
 // var playerSchema = mongoose.Schema({
@@ -185,32 +185,32 @@ io.sockets.on('connection', function(socket){
     io.emit('score-update', {blue: foosballGame.bluepoints, red: foosballGame.redpoints});
 
     // Receiving info from remote page        
-            socket.on('score', function(data){
-                
-                console.log('score received from Remote'.green)
-                // io.emit('score-update', data);
-                addpoint(data);
-            });
+    socket.on('score', function(data){
+        
+        console.log('score received from Remote'.green)
+        // io.emit('score-update', data);
+        addpoint(data);
+    });
 
-            socket.on('status', function(data){
-                switch (data)
-                { case "newGame": 
-                    newGame();
-                break;
-                };
-            });
+    socket.on('status', function(data){
+        switch (data)
+        { case "newGame": 
+            newGame();
+        break;
+        };
+    });
 
-            socket.on('players', function(data){
-                console.log(data);
-                foosballGame.bluePlayer1 = data.bluePlayer1;
-                foosballGame.bluePlayer2 = data.bluePlayer2;
-                foosballGame.redPlayer1 = data.redPlayer1;
-                foosballGame.redPlayer2 = data.redPlayer2;
-            });
+    socket.on('players', function(data){
+        console.log(data);
+        foosballGame.bluePlayer1 = data.bluePlayer1;
+        foosballGame.bluePlayer2 = data.bluePlayer2;
+        foosballGame.redPlayer1 = data.redPlayer1;
+        foosballGame.redPlayer2 = data.redPlayer2;
+    });
 
-            socket.on('pointData', function(data){
-                console.log(data);
-            });
+    socket.on('pointData', function(data){
+        console.log(data);
+    });
 
     function newGame() {
         foosballGame.bluepoints = "00"
@@ -227,54 +227,53 @@ io.sockets.on('connection', function(socket){
 
 }); //end socket connection
 
-// var five = require("johnny-five"),
-//     board,
-//     button;
+// Disable all lines below if running without an arduino attached to server
 
-// function goal() {
-//     var piezo = new five.Piezo(3);
-//     piezo.play({
-//     // song is composed by an array of pairs of notes and beats
-//     // The first argument is the note (null means "no note")
-//     // The second argument is the length of time (beat) of the note (or non-note)
-//         song: [
+var five = require("johnny-five"),
+    board,
+    button;
+
+function goal() {
+    var piezo = new five.Piezo(3);
+    piezo.play({
+        song: [
           
-//             ["d4", 1/4],
-//             [null, 1/8],
-//             ["c#4", 1/4],
-//             [null, 1/8],
-//             ["g5", 1.5] 
-//         ],
-//         tempo: 150
-//     });
-// };
+            ["d4", 1/4],
+            [null, 1/8],
+            ["c#4", 1/4],
+            [null, 1/8],
+            ["g5", 1.5] 
+        ],
+        tempo: 150
+    });
+};
 
-// board = new five.Board();
+board = new five.Board();
 
-// board.on("ready", function() {
+board.on("ready", function() {
   
-//     var blueSensor = new five.Button(8);
-//     var redSensor = new five.Button(10);
+    var blueSensor = new five.Button(8);
+    var redSensor = new five.Button(10);
 
-//     board.repl.inject({
-//         blueSensor: button,
-//         redSensor: button
-//     });
+    board.repl.inject({
+        blueSensor: button,
+        redSensor: button
+    });
 
-//     blueSensor.on("up", function() {
-//         console.log("up");
-//         addpoint("blueplus");
+    blueSensor.on("up", function() {
+        console.log("up");
+        addpoint("blueplus");
       
-//     });
+    });
 
-//     redSensor.on("up", function() {
-//         console.log("up");
-//         addpoint("redplus");
+    redSensor.on("up", function() {
+        console.log("up");
+        addpoint("redplus");
        
-//     });
+    });
 
-//     goal();
-// });
+    goal();
+});
 
 
 
