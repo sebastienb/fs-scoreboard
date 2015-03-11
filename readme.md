@@ -28,6 +28,6 @@ To count the point a pair of lasers and photo resistors wired to an Arduino wher
 ![Laser sensors](http://sebastienb.com/wp-content/uploads/2014/08/Screen-Shot-2014-08-05-at-7.10.35-PM-300x163.png)
 
 
-
-**Main Libraries**
-NodeJs, JohnnyFive and Socket.io
+###Coming soon
+-Storing player data in a DB and showing them their stats on a profile page.
+-Adding social sharing of game scores after game play.
