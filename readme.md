@@ -3,7 +3,7 @@ Nodejs and JohnyFive scoreboard for a Fooseball table.
 
 ![alt text](http://sebastienb.com/wp-content/uploads/2014/08/Screen-Shot-2014-07-31-at-3.53.20-PM-1133x800.png "Scoreboard")
 
-##Project description
+## Project description
 
 We are quite competitive when it comes to foosball at the office, we try to mentally keep track of scores and wins over a few weeks span but that never works out. We wanted a method of tracking points that din’t involve us writing it down.
 
