@@ -13,21 +13,21 @@ Being an amateur hardware hacker, I decided to take it a step further and automa
 
 ![Diagram](http://sebastienb.com/wp-content/uploads/2014/08/Screen-Shot-2014-08-05-at-7.05.56-PM.png)
 
-###Server to Arduino communication
+### Server to Arduino communication
 
 Using the Johnny-Five library, when the ball goes down the goals it brakes the laser and triggers a switch that lets the server know that a point was scored.
 
-###Server/Client communication
+### Server/Client communication
 
 We are using socket.io to send information from the server in real time to the scoreboard web page.
 
-###Counting points
+### Counting points
 
 To count the point a pair of lasers and photo resistors wired to an Arduino where used as buttons to trigger a function in my application to add points for each team. When the ball cuts the laser it interrupts a switch and Johnny-five on the server records the change of state and triggers a goal. To mark which player scored the goal tap his avatar, this allows the server to keep track of player performance (how quick they scored, how many autogals they scored).
 
 ![Laser sensors](http://sebastienb.com/wp-content/uploads/2014/08/Screen-Shot-2014-08-05-at-7.10.35-PM-300x163.png)
 
 
-###Coming soon
+### Coming soon
 -Storing player data in a DB and showing them their stats on a profile page.
 -Adding social sharing of game scores after game play.
